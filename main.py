@@ -10,7 +10,7 @@ from apis import my_rmbg_key, tinify_key
 tinify.key = tinify_key
 
 # Configure logging
-logging.basicConfig(filename='image_optimization.log', level=logging.INFO, format='%(message)s')
+logging.basicConfig(filename='image_optimization.log', filemode='w', level=logging.INFO, format='%(message)s')
 
 # Define the directories
 input_directory = "collections"
@@ -113,10 +113,30 @@ for filename in os.listdir(input_directory):
         logging.info(f'New Size: {format_size(new_size)}')
         logging.info("=======================================================================================\n")
 
+
         total_images_optimized += 1
+
+
+def money_saved(img):
+    money = img * 0.15
+    if money > 100:
+     return money/100
+    else:
+     return money
+
+def time_saved(img):
+    time = img * 6
+    if time > 60:
+        return time/60
+    else:
+        return time
+
+time = time_saved(total_images_optimized)
+money = money_saved(total_images_optimized)
 
 # Log total number of images optimized
 logging.info(f'Total images optimized: {total_images_optimized}')
 logging.info(f'Total size of all images: {format_size(total_original_size)}')
 logging.info(f'Compressed size of all images: {format_size(total_new_size)}')
-
+logging.info(f"Total time saved: {str(time)+"/min" if time < 60 else str(time)+"/hr"}")
+logging.info(f"Total money saved: {str(money)+"$"}")
